@@ -1,0 +1,95 @@
+:root {
+  --green-dark: #0f2f26;
+  --green: #1c6e52;
+  --green-light: #e7f5ee;
+  --accent: #d4a017;
+  --text: #1f2a27;
+  --muted: #6b7a75;
+  --border: #dfe7e3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  background: #f6f8f7;
+  color: var(--text);
+}
+
+.app-shell { max-width: 1100px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+.app-header {
+  background: var(--green-dark);
+  color: #fff;
+  padding: 1.2rem 1.5rem;
+  margin: 0 -1rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.booking-layout { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
+.booking-main { flex: 2; min-width: 320px; }
+.booking-sidebar { flex: 1; min-width: 280px; position: sticky; top: 1rem; }
+
+.muted { color: var(--muted); font-size: 0.9rem; }
+
+.date-picker { display: block; margin: 1.2rem 0; font-weight: 600; }
+.date-picker input {
+  display: block; margin-top: .4rem; padding: .6rem; border: 1px solid var(--border);
+  border-radius: .5rem; font-size: 1rem;
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: .6rem;
+  margin: 1rem 0 1.5rem;
+}
+.slot-btn {
+  padding: .6rem .4rem;
+  border: 1px solid var(--green);
+  background: #fff;
+  color: var(--green-dark);
+  border-radius: .6rem;
+  cursor: pointer;
+  font-size: .9rem;
+  transition: all .15s;
+}
+.slot-btn:hover { background: var(--green-light); }
+.slot-btn.selected { background: var(--green); color: #fff; }
+
+.customer-form { background: #fff; border: 1px solid var(--border); border-radius: 1rem; padding: 1.2rem; margin-top: 1rem; }
+.customer-form label { display: block; margin-bottom: .8rem; font-weight: 600; font-size: .9rem; }
+.customer-form input { width: 100%; padding: .6rem; border: 1px solid var(--border); border-radius: .5rem; margin-top: .3rem; font-size: 1rem; }
+.required { color: #c0392b; }
+
+.payment-methods { margin-top: 1rem; }
+.payment-methods .radio { display: flex; align-items: center; gap: .5rem; font-weight: 400; margin-bottom: .5rem; }
+.payment-methods .radio input { width: auto; }
+
+.submit-btn {
+  margin-top: 1rem; width: 100%; padding: .9rem; background: var(--green);
+  color: #fff; border: none; border-radius: .6rem; font-size: 1.05rem; cursor: pointer;
+}
+.submit-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.error-msg { color: #c0392b; font-weight: 600; }
+
+.cart-panel { background: #fff; border: 1px solid var(--border); border-radius: 1rem; padding: 1.2rem; }
+.cart-day { border-bottom: 1px solid var(--border); padding: .6rem 0; }
+.cart-day-header { display: flex; justify-content: space-between; margin-bottom: .4rem; }
+.cart-day ul { list-style: none; padding: 0; margin: 0; }
+.cart-day li { display: flex; justify-content: space-between; padding: .2rem 0; font-size: .9rem; }
+.cart-day-subtotal { text-align: left; font-size: .85rem; color: var(--muted); margin-top: .3rem; }
+.cart-total { margin-top: 1rem; font-size: 1.1rem; text-align: left; }
+.link-btn { background: none; border: none; color: #c0392b; cursor: pointer; font-size: .8rem; }
+
+.success-box {
+  max-width: 480px; margin: 3rem auto; background: #fff; border-radius: 1rem;
+  padding: 2rem; text-align: center; border: 1px solid var(--border);
+}
+.success-box button, .success-box a {
+  display: inline-block; margin-top: 1rem; background: var(--green); color: #fff;
+  padding: .7rem 1.4rem; border: none; border-radius: .6rem; text-decoration: none; cursor: pointer;
+}
