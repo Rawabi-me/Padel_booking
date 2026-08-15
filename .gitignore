@@ -1,3 +1,4 @@
 laravel-fresh/vendor/
 laravel-fresh/.env
 laravel-fresh/database/database.sqlite
+frontend/.env
