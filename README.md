@@ -1,4 +1,15 @@
-٩# منصة حجز ملاعب البادل — Padel Booking Platform
+## 🔗 روابط حية (Live Demo)
+
+- **الموقع (واجهة العميل):** https://padel-booking-pink.vercel.app
+- **لوحة التحكم الإدارية:** https://padelbooking-production-d794.up.railway.app/admin
+  - البريد: `admin@padel.local`
+  - كلمة المرور: `Admin@1234`
+
+⚠️ **ملاحظة أمنية:** بيانات الدخول أعلاه مخصصة لأغراض التقييم فقط (مستخدم تجريبي وهمي أنشأه الـ Seeder). في بيئة إنتاج حقيقية، يجب تغيير كلمة المرور فوراً بعد أول تسجيل دخول، وعدم نشر بيانات الدخول الفعلية في أي ملف عام.
+
+---
+
+# منصة حجز ملاعب البادل — Padel Booking Platform
 
 مشروع كامل (اختبار المرحلة الثانية - نهج NAHJ): باكند Laravel + فرونت اند React لحجز ملاعب البادل، مع لوحة تحكم إدارية ودمج بوابة الدفع الإلكتروني **ثواني**.
 
@@ -8,17 +19,16 @@
 - **الفرونت اند: React (Vite)** — واجهة ويب للعميل (SPA) بدون الحاجة لإنشاء حساب.
 
 ## هيكلة المشروع
-
-```
 padel-booking/
-├── backend/     Laravel — API + لوحة تحكم الإدارة (Blade)
-└── frontend/    React (Vite) — واجهة حجز العميل
-```
+├── backend/ Laravel — API + لوحة تحكم الإدارة (Blade)
+└── frontend/ React (Vite) — واجهة حجز العميل
 
 ---
 
-## 1) تشغيل الباكند (Laravel)
-تم تشغيل المشروع بالكامل (الباكند والفرونت اند) واختباره فعلياً عبر GitHub Codespaces، بما في ذلك تسجيل الدخول للوحة التحكم وإتمام حجز تجريبي بنجاح.
+## 1) تشغيل الباكند (Laravel) محلياً
+
+تم تشغيل المشروع بالكامل واختباره فعلياً (محلياً عبر GitHub Codespaces، وحالياً منشور فعلياً على Railway كما هو موضح أعلاه).
+
 ```bash
 # 1. أنشئ مشروع Laravel جديد فارغ في مجلد مؤقت
 composer create-project laravel/laravel laravel-fresh "^11.0"
@@ -31,11 +41,11 @@ composer create-project laravel/laravel laravel-fresh "^11.0"
 #    - backend/config/app.frontend-url-snippet.php    -> داخل config/app.php
 
 cd laravel-fresh
-cp .env.example .env      # أو انسخ محتوى backend/.env.example
+cp .env.example .env
 php artisan key:generate
 
-# Laravel 11 لا يفعّل routes/api.php تلقائياً، شغّل هذا الأمر مرة واحدة لتفعيله
-php artisan install:api
+# Laravel 11 لا يفعّل routes/api.php تلقائياً؛ استخدم بدلاً من install:api إضافة السطر التالي
+# داخل bootstrap/app.php ضمن withRouting():  api: __DIR__.'/../routes/api.php',
 
 touch database/database.sqlite   # نستخدم SQLite لتبسيط التشغيل بدون سيرفر قاعدة بيانات منفصل
 
@@ -43,13 +53,11 @@ php artisan migrate --seed
 php artisan serve          # يعمل الآن على http://localhost:8000
 ```
 
-### بيانات دخول لوحة التحكم (تُنشأ تلقائياً بواسطة الـ Seeder)
-```
-الرابط:   http://localhost:8000/admin
-البريد:   admin@padel.local
+### بيانات دخول لوحة التحكم المحلية (تُنشأ تلقائياً بواسطة الـ Seeder)
+
+الرابط: http://localhost:8000/admin
+البريد: admin@padel.local
 كلمة المرور: Admin@1234
-```
-**يُنصح بتغييرها فوراً بعد أول تسجيل دخول في بيئة الإنتاج.**
 
 ### بيانات تجريبية يُنشئها الـ Seeder
 - 3 ملاعب (A, B, C) بدوام يومي 09:00 - 23:00.
@@ -57,7 +65,7 @@ php artisan serve          # يعمل الآن على http://localhost:8000
 
 ---
 
-## 2) تشغيل الفرونت اند (React)
+## 2) تشغيل الفرونت اند (React) محلياً
 
 ```bash
 cd frontend
@@ -65,8 +73,6 @@ npm install
 cp .env.example .env      # عدّل VITE_API_URL إذا لزم
 npm run dev                # يعمل على http://localhost:5173
 ```
-
-تم بناء المشروع واختباره فعلياً هنا (`npm run build`) للتأكد من خلوّه من الأخطاء.
 
 ---
 
@@ -77,12 +83,10 @@ npm run dev                # يعمل على http://localhost:5173
 - توجيه العميل: `https://uatcheckout.thawani.om/pay/{session_id}?key={publishable_key}`
 - التحقق من حالة الدفع: `GET https://uatcheckout.thawani.om/api/v1/checkout/session/{session_id}`
 
-مفاتيح الاختبار العامة المنشورة في توثيق ثواني موجودة مسبقاً كقيمة افتراضية في `.env.example` (يمكن استبدالها بمفاتيحك الخاصة عند التسجيل الفعلي كتاجر).
-
 **تدفق الدفع:**
 1. العميل يختار "الدفع الإلكتروني" ⟶ الباكند ينشئ الحجز (pending) ثم جلسة دفع ثواني ⟶ يُعاد توجيه العميل لصفحة ثواني.
 2. بعد الدفع، يُعاد العميل إلى `/payment/success?ref=...` أو `/payment/cancel?ref=...` في الفرونت اند.
-3. الفرونت اند يستدعي `GET /api/payment/verify?ref=...` والذي يتحقق من الباكند مباشرة مع ثواني (وليس فقط من الرابط) قبل تأكيد حالة الدفع — لمنع أي تلاعب من جهة العميل.
+3. الفرونت اند يستدعي `GET /api/payment/verify?ref=...` والذي يتحقق من الباكند مباشرة مع ثواني قبل تأكيد حالة الدفع — لمنع أي تلاعب من جهة العميل.
 
 ---
 
@@ -101,14 +105,30 @@ npm run dev                # يعمل على http://localhost:5173
 
 ---
 
-## 5) التقنيات المستخدمة
+## 5) الاختبارات الآلية (PHPUnit)
 
-**الباكند:** Laravel 11, Eloquent ORM, SQLite (قابل للتبديل لـ MySQL بتعديل `.env` فقط), Laravel HTTP Client (Guzzle) لثواني, Blade + Bootstrap 5 (RTL) للوحة التحكم.
+اختبارات فعلية للتحقق من صحة الخوارزمية الأساسية، موجودة في `backend/tests/Feature/BookingAvailabilityTest.php`:
+- التأكد من عدم كشف أي اسم/معرّف ملعب في الاستجابة.
+- التأكد أن الوقت يبقى متاحاً طالما هناك ملعب واحد حر.
+- التأكد من منع عرض أوقات ماضية لليوم الحالي.
+
+تشغيلها:
+```bash
+php artisan test
+```
+
+---
+
+## 6) التقنيات المستخدمة
+
+**الباكند:** Laravel 11, Eloquent ORM, MySQL (إنتاج) / SQLite (تطوير محلي), Laravel HTTP Client (Guzzle) لثواني, Blade + Bootstrap 5 (RTL) للوحة التحكم.
 
 **الفرونت اند:** React 19, Vite, React Router, Axios.
 
-## 6) ملاحظات إضافية
+**النشر:** Railway (باكند + قاعدة بيانات MySQL)، Vercel (فرونت اند).
 
-- الأسعار كانت مصممة "بشكل عام" وليست مرتبطة بملعب محدد، لأن العميل لا يختار/يعرف الملعب أصلاً — هذا يضمن عدالة السعر بغض النظر عن الملعب الذي يُخصَّص له عشوائياً.
-- قاعدة البيانات SQLite لتسهيل التشغيل السريع للمُقيّم دون الحاجة لإعداد سيرفر MySQL منفصل؛ التصميم (migrations) متوافق تماماً مع MySQL أيضاً.
-- لم يتم رفع مشروع على خادم تجريبي (Demo) ضمن هذا التسليم؛ الكود جاهز للنشر إن رغبت.
+## 7) ملاحظات إضافية
+
+- الأسعار مصممة بشكل عام وليست مرتبطة بملعب محدد، لأن العميل لا يختار/يعرف الملعب أصلاً — هذا يضمن عدالة السعر بغض النظر عن الملعب الذي يُخصَّص له عشوائياً.
+- تمت إضافة صفحة "تتبع حجزي" (`/track`) للعميل، تتيح الاستعلام عن حالة أي حجز باستخدام الرقم المرجعي فقط.
+- المشروع منشور فعلياً وقيد التشغيل على الروابط الموضحة أعلى هذا الملف.
